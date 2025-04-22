@@ -8,20 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
 {
-    // Constructor to check if the user is logged in before executing any method
-    public function __construct()
-    {
-        // Check if the user is logged in
-        if (!Auth::check()) {
-            return redirect()->route('admin.login');  // Redirect to login if not authenticated
-        }
-    }
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        // Check if the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');  // Redirect to login if not authenticated
+        }
         $cars = Car::all();  // Fetch all cars from the database
         return view('admin.cars.index', compact('cars'));
     }
@@ -31,6 +27,10 @@ class CarController extends Controller
      */
     public function create()
     {
+        // Check if the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');  // Redirect to login if not authenticated
+        }
         return view('admin.cars.create');
     }
 
@@ -39,6 +39,10 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
+        // Check if the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');  // Redirect to login if not authenticated
+        }
         // Validate the form data
         $validated = $request->validate([
             'model_name' => 'required|string|max:255',
@@ -70,6 +74,10 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
+        // Check if the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');  // Redirect to login if not authenticated
+        }
         $car = Car::findOrFail($id);  // Find the car by ID
         return view('admin.cars.show', compact('car'));
     }
@@ -79,6 +87,10 @@ class CarController extends Controller
      */
     public function edit(string $id)
     {
+        // Check if the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');  // Redirect to login if not authenticated
+        }
         $car = Car::findOrFail($id);  // Find the car by ID
         return view('admin.cars.edit', compact('car'));
     }
@@ -88,6 +100,10 @@ class CarController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // Check if the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');  // Redirect to login if not authenticated
+        }
         $car = Car::findOrFail($id);
 
         $validated = $request->validate([
@@ -116,6 +132,10 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
+        // Check if the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');  // Redirect to login if not authenticated
+        }
         $car = Car::findOrFail($id);  // Find the car by ID
         $car->delete();  // Delete the car from the database
 

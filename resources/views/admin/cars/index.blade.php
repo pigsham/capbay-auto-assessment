@@ -32,6 +32,8 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ number_format($car->price, 2) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $car->available_units }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="{{ route('admin.appointments.index', $car->id) }}" class="text-blue-600 hover:text-blue-700">View Appointments</a>
+                                    <span class="mx-2">|</span>
                                     <a href="{{ route('admin.cars.edit', $car->id) }}" class="text-yellow-600 hover:text-yellow-700">Edit</a>
                                     <span class="mx-2">|</span>
                                     <form action="{{ route('admin.cars.destroy', $car->id) }}" method="POST" style="display:inline;">

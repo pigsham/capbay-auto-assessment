@@ -19,5 +19,8 @@ class Car extends Model
         'image_url',
     ];
 
-    // Define any relationships if necessary (e.g., if you have a category or manufacturer table)
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }
