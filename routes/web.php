@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CarController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,26 +14,11 @@ Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.lo
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout.submit'); 
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/admin/dashboard/cars', [AdminController::class, 'viewCars'])->name('admin.cars.index');
-//     Route::get('/admin/dashboard/cars/{carId}/appointments', [AdminController::class, 'viewAppointments'])->name('admin.viewAppointments');
-//     Route::get('/admin/dashboard/cars/{carId}/edit', [AdminController::class, 'editCar'])->name('admin.editCar');
-//     Route::put('/admin/dashboard/cars/{carId}', [AdminController::class, 'updateCar'])->name('admin.updateCar');
-//     Route::delete('/admin/dashboard/cars/{carId}', [AdminController::class, 'deleteCar'])->name('admin.deleteCar');
-// });
+# Car Routes
+Route::get('/admin/dashboard/cars', [CarController::class, 'index'])->name('admin.cars.index');
+Route::get('/admin/dashboard/cars/create', [CarController::class, 'create'])->name('admin.cars.create');
+Route::post('/admin/dashboard/cars', [CarController::class, 'store'])->name('admin.cars.store');
+Route::get('/admin/dashboard/cars/{carId}/edit', [CarController::class, 'edit'])->name('admin.cars.edit');
+Route::put('/admin/dashboard/cars/{carId}', [CarController::class, 'update'])->name('admin.cars.update');
+Route::delete('/admin/dashboard/cars/{carId}', [CarController::class, 'destroy'])->name('admin.cars.destroy');
 
-// Route::get('/admin/dashboard/cars', [AdminController::class, 'viewCars'])->name('admin.cars.index');
-// Route::get('/admin/dashboard/cars/{carId}/appointments', [AdminController::class, 'viewAppointments'])->name('admin.viewAppointments');
-// Route::get('/admin/dashboard/cars/{carId}/edit', [AdminController::class, 'editCar'])->name('admin.editCar');
-// Route::put('/admin/dashboard/cars/{carId}', [AdminController::class, 'updateCar'])->name('admin.updateCar');
-// Route::delete('/admin/dashboard/cars/{carId}', [AdminController::class, 'deleteCar'])->name('admin.deleteCar');
-
-// Protect the route with manual authentication check
-Route::get('/admin/dashboard/cars', function () {
-    if (!Auth::check()) {
-        return redirect()->route('admin.login');  // Redirect to login if not authenticated
-    }
-
-    // Proceed to the AdminController for handling the cars listing
-    return (new AdminController)->viewCars();
-})->name('admin.cars.index');
