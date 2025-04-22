@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+
     // View list of cars
     public function viewCars()
-    {
+    {   
+        // Check if the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('admin.login');  // Redirect to login if not authenticated
+        }
         $cars = Car::all(); // Retrieve all cars
         return view('admin.cars.index', compact('cars'));
     }

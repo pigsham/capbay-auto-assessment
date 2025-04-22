@@ -10,13 +10,6 @@
             <p><strong>Price:</strong> RM {{ number_format($car->price, 2) }}</p>
             <p><strong>Available Units:</strong> {{ $car->available_units }}</p>
             <p><strong>Description:</strong> {{ $car->description }}</p>
-            <a href="{{ route('admin.viewAppointments', $car->id) }}" class="btn btn-primary">View Appointments</a>
-            <a href="{{ route('admin.editCar', $car->id) }}" class="btn btn-warning">Edit</a>
-            <form action="{{ route('admin.deleteCar', $car->id) }}" method="POST" style="display: inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
         </div>
     @endforeach
 @endsection
