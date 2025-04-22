@@ -31,8 +31,8 @@ class AuthController extends Controller
             Auth::login($user, $request->filled('remember'));
     
             // Redirect to the dashboard or wherever you want to go after successful login
-            // return redirect()->route('admin.dashboard');
-            return redirect()->intended('/'); // Redirect to intended URL or home
+            return redirect()->route('admin.dashboard');
+            // return redirect()->intended('/'); // Redirect to intended URL or home
         }
     
         // If login fails, return with error message
