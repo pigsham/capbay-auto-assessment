@@ -148,4 +148,35 @@ class AppointmentController extends Controller
         return redirect()->route('admin.appointments.index', $carId)
                          ->with('status', 'Appointment deleted successfully!');
     }
+
+        /**
+     * Quickly test whether this appointment is promotion-eligible.
+     *
+     * @param  \App\Models\Appointment  $appointment
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkPromotion(Appointment $appointment)
+    {
+        $eligible = $appointment->isPromotionEligible();
+
+        return response()->json([
+            'appointment_id' => $appointment->id,
+            'car_model'      => $appointment->car->model_name,
+            'down_payment'   => $appointment->down_payment_percentage,
+            'promotion_eligible' => $eligible,
+        ]);
+    }
+
+    public function eligibleCustomerCount($carId)
+    {
+        $count = Appointment::where('car_id', $carId)
+            ->where('promotion_eligible', true)
+            ->where('purchase_status', true)
+            ->count();
+
+        return response()->json([
+            'car_id' => (int)$carId,
+            'eligible_customers' => $count,
+        ]);
+    }
 }

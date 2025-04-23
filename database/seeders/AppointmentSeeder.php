@@ -41,7 +41,7 @@ class AppointmentSeeder extends Seeder
             'appointment_date' => '2025-07-01',
             'down_payment_percentage' => 25,
             'promotion_eligible' => true,
-            'purchase_status' => true,
+            'purchase_status' => false,
         ]);
 
         // 9 customers with down_payment_percentage >= 10 and promotion_eligible = true, purchase_status = true

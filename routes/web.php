@@ -33,3 +33,15 @@ Route::delete('admin/cars/{carId}/appointments/{appointmentId}', [AppointmentCon
 
 Route::get('admin/cars/{carId}/appointments/create', [AppointmentController::class, 'create'])->name('admin.appointments.create');
 Route::post('admin/cars/{carId}/appointments', [AppointmentController::class, 'store'])->name('admin.appointments.store');
+
+
+# TESTING
+Route::get(
+    'admin/appointments/{appointment}/check-promotion',
+    [AppointmentController::class, 'checkPromotion']
+)->name('admin.appointments.checkPromotion');
+
+Route::get(
+    'admin/cars/{carId}/eligible-customers',
+    [AppointmentController::class, 'eligibleCustomerCount']
+)->name('admin.appointments.eligibleCount');

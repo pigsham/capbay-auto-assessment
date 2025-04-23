@@ -34,7 +34,7 @@ class Appointment extends Model
         $car = $this->car;
     
         // Check if the car is "CapBay Vroom" and down payment percentage is >= 10%
-        if ($car->model_name === 'CapBay Vroom' && $this->down_payment_percentage >= 10) {
+        if ($car->model_name == 'Vroom' && $car->brand == "CapBay" && $this->down_payment_percentage >= 10) {
             // Get the count of eligible customers who have registered for the promotion
             $eligibleCustomersCount = Appointment::where('car_id', $this->car_id)
                 ->where('promotion_eligible', true)
