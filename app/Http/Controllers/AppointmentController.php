@@ -32,31 +32,46 @@ class AppointmentController extends Controller
      */
     public function store(Request $request, $carId)
     {
-        // Validate the input
+        // First, fetch the car so we can get its price
+        $car = Car::findOrFail($carId);
+    
+        // Validate the incoming form
         $validated = $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'nullable|email',
-            'customer_phone' => 'required|string|max:20',
-            'appointment_date' => 'required|date',
-            'down_payment_percentage' => 'nullable|numeric|min:0|max:100',
-            'promotion_eligible' => 'nullable|boolean',
-            'purchase_status' => 'nullable|boolean',
+            'customer_name'        => 'required|string|max:255',
+            'customer_email'       => 'nullable|email',
+            'customer_phone'       => 'required|string|max:20',
+            'appointment_date'     => 'required|date',
+            'down_payment_amount'  => 'required|numeric|min:0',   // NEW
+            'promotion_eligible'   => 'nullable|boolean',
+            'purchase_status'      => 'nullable|boolean',
         ]);
-
-        // Add the car_id to the validated data
-        $validated['car_id'] = $carId;
-
+    
+        // Calculate percentage from the raw amount
+        $amount     = $validated['down_payment_amount'];
+        $percentage = $car->price > 0
+            ? round(($amount / $car->price) * 100, 2)
+            : 0;
+    
         // Create the appointment
-        $appointment = Appointment::create($validated);
-
-        // Check and update promotion eligibility if applicable
+        $appointment = Appointment::create([
+            'customer_name'           => $validated['customer_name'],
+            'customer_email'          => $validated['customer_email'],
+            'customer_phone'          => $validated['customer_phone'],
+            'appointment_date'        => $validated['appointment_date'],
+            'down_payment_percentage' => $percentage,                     // store the calculated %
+            'car_id'                  => $carId,
+            'promotion_eligible'      => $validated['promotion_eligible'] ?? false,
+            'purchase_status'         => $validated['purchase_status']  ?? false,
+        ]);
+    
+        // Re-check promotion eligibility after creation
         if ($appointment->isPromotionEligible()) {
             $appointment->update(['promotion_eligible' => true]);
         }
-
-        // Redirect back to the appointments index page for the car
-        return redirect()->route('admin.appointments.index', $carId)
-                         ->with('status', 'Appointment created successfully!');
+    
+        return redirect()
+            ->route('cars.website_index')
+            ->with('status', 'Appointment created successfully!');
     }
     
     /**

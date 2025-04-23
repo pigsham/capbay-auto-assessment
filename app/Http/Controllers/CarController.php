@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Auth;
 class CarController extends Controller
 {
 
+
+    // Show available cars for customers
+    public function availableCars()
+    {
+        // Fetch all available cars
+        $cars = Car::where('available_units', '>', 0)->get(); // Fetch cars with available units
+
+        return view('website.cars.website_index', compact('cars'));  // Pass the cars to the view
+    }
+
     /**
      * Display a listing of the resource.
      */

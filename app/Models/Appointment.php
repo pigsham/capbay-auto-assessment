@@ -13,12 +13,12 @@ class Appointment extends Model
         'customer_name',
         'customer_email',
         'customer_phone',
-        'car_model',
         'appointment_date',
         'down_payment_percentage',
+        'car_id',                  // ← must be here
         'promotion_eligible',
         'purchase_status',
-    ];
+      ];
 
     public function car()
     {

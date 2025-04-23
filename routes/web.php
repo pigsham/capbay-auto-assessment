@@ -10,6 +10,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/cars', [CarController::class, 'availableCars'])->name('cars.website_index');  // List of cars
+Route::get('/appointments/create/{carId}', [AppointmentController::class, 'create'])->name('appointments.create');  // Appointment creation page
 
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
